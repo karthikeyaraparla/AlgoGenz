@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +20,7 @@ import MedicalRecordDetail from "./pages/MedicalRecordDetail";
 import Activities from "./pages/Activities";
 import Settings from "./pages/Settings";
 import AddChild from "./pages/AddChild";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -36,25 +36,31 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            
+
             {/* Parent Routes */}
             <Route path="/dashboard" element={<ParentDashboard />} />
             <Route path="/children" element={<ChildProfiles />} />
             <Route path="/children/:id" element={<ChildDetail />} />
             <Route path="/add-child" element={<AddChild />} />
             <Route path="/medical-records" element={<MedicalRecords />} />
-            <Route path="/medical-records/:id" element={<MedicalRecordDetail />} />
-            <Route path="/school-records/:id" element={<MedicalRecordDetail />} />
+            <Route
+              path="/medical-records/:id"
+              element={<MedicalRecordDetail />}
+            />
+            <Route
+              path="/school-records/:id"
+              element={<MedicalRecordDetail />}
+            />
             <Route path="/activities" element={<Activities />} />
             <Route path="/settings" element={<Settings />} />
-            
+
             {/* Hospital Routes */}
             <Route path="/hospital-dashboard" element={<HospitalDashboard />} />
             <Route path="/add-record" element={<AddRecord />} />
-            
+
             {/* Redirects */}
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            
+            <Route path="/" element={<LandingPage />} />
+
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
