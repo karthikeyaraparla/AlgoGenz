@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { z } from "zod";
@@ -19,16 +18,20 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
-  confirmPassword: z.string(),
-  userType: z.enum(["parent", "hospital"])
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
+const formSchema = z
+  .object({
+    name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+    email: z.string().email({ message: "Please enter a valid email address" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+    confirmPassword: z.string(),
+    userType: z.enum(["parent", "hospital"]),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -51,14 +54,14 @@ export function RegisterForm() {
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
-    
+
     try {
       // In a real app, we would register with a backend service here
       console.log("Registration data:", data);
-      
+
       // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       toast.success("Registration successful! Please sign in.");
       navigate("/login");
     } catch (error) {
@@ -85,7 +88,11 @@ export function RegisterForm() {
                   className="flex space-x-1"
                 >
                   <div className="flex items-center space-x-2 flex-1">
-                    <RadioGroupItem value="parent" id="parent" className="sr-only peer" />
+                    <RadioGroupItem
+                      value="parent"
+                      id="parent"
+                      className="sr-only peer"
+                    />
                     <label
                       htmlFor="parent"
                       className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
@@ -94,7 +101,11 @@ export function RegisterForm() {
                     </label>
                   </div>
                   <div className="flex items-center space-x-2 flex-1">
-                    <RadioGroupItem value="hospital" id="hospital" className="sr-only peer" />
+                    <RadioGroupItem
+                      value="hospital"
+                      id="hospital"
+                      className="sr-only peer"
+                    />
                     <label
                       htmlFor="hospital"
                       className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
@@ -105,31 +116,39 @@ export function RegisterForm() {
                 </RadioGroup>
               </FormControl>
               <FormDescription>
-                {form.watch("userType") === "hospital" 
-                  ? "Hospital accounts require verification before being able to add records." 
+                {form.watch("userType") === "hospital"
+                  ? "Hospital accounts require verification before being able to add records."
                   : "Parent accounts can view and manage child profiles and records."}
               </FormDescription>
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{form.watch("userType") === "hospital" ? "Hospital Name" : "Full Name"}</FormLabel>
+              <FormLabel>
+                {form.watch("userType") === "hospital"
+                  ? "Hospital Name"
+                  : "Full Name"}
+              </FormLabel>
               <FormControl>
-                <Input 
-                  placeholder={form.watch("userType") === "hospital" ? "City General Hospital" : "Jane Doe"} 
-                  {...field} 
+                <Input
+                  placeholder={
+                    form.watch("userType") === "hospital"
+                      ? "City General Hospital"
+                      : "Jane Doe"
+                  }
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="email"
@@ -143,7 +162,7 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="password"
@@ -174,7 +193,7 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="confirmPassword"
@@ -205,7 +224,7 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        
+
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? (
             <>
@@ -216,7 +235,7 @@ export function RegisterForm() {
             "Create account"
           )}
         </Button>
-        
+
         <div className="text-center text-sm">
           Already have an account?{" "}
           <Link to="/login" className="text-primary hover:underline">
